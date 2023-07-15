@@ -2,7 +2,7 @@ import type { Middleware } from '../types/core';
 import { createLogger } from '../core/logger';
 
 export const logging: Middleware = (request, response, next) => {
-  request.logger = createLogger('controller', {
+  request.logger = createLogger('request', {
     request: {
       method: request.method,
       path: request.path,

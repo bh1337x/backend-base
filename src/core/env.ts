@@ -1,7 +1,7 @@
 import { object, coerce, string, enum as enumeration, infer as inference } from 'zod';
 import { createLogger } from './logger';
 
-const logger = createLogger('env');
+const logger = createLogger('environment');
 
 const schema = object({
   NODE_ENV: enumeration(['development', 'production', 'test']),
