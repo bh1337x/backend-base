@@ -6,11 +6,12 @@ const logger = createLogger('env');
 const schema = object({
   NODE_ENV: enumeration(['development', 'production', 'test']),
   PORT: coerce.number(),
-  APP_CORS_ENABLED: enumeration(['true', 'false']),
-  APP_CORS_ALLOWED_ORIGINS: string().nonempty(),
-  APP_CORS_ALLOWED_METHODS: string().nonempty(),
-  APP_CORS_ALLOWED_HEADERS: string().nonempty(),
-  APP_REQUEST_BODY_LIMIT: string().nonempty(),
+  SERVER_CORS_ENABLED: enumeration(['true', 'false']),
+  SERVER_CORS_ALLOW_CREDENTIALS: enumeration(['true', 'false']),
+  SERVER_CORS_ALLOWED_ORIGINS: string().nonempty(),
+  SERVER_CORS_ALLOWED_METHODS: string().nonempty(),
+  SERVER_CORS_ALLOWED_HEADERS: string().nonempty(),
+  SERVER_REQUEST_BODY_LIMIT: string().nonempty(),
 });
 
 logger.info('Validating environment variables');

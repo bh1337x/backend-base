@@ -8,20 +8,21 @@ import {
   corsAllowedHeaders,
   corsAllowedMethods,
   corsAllowedOrigins,
+  corsAllowCredentials,
   corsEnabled,
 } from '../utils/cors';
 import logger from '../core/logger';
 
 const middlewares: Middlewares = [
   express.json({
-    limit: process.env.APP_REQUEST_BODY_LIMIT,
+    limit: process.env.SERVER_REQUEST_BODY_LIMIT,
     verify: (request, response, buffer) => {
       request.rawBody = buffer;
     },
   }),
   express.urlencoded({
     extended: true,
-    limit: process.env.APP_REQUEST_BODY_LIMIT,
+    limit: process.env.SERVER_REQUEST_BODY_LIMIT,
     verify: (request, response, buffer) => {
       request.rawBody = buffer;
     },
@@ -33,11 +34,19 @@ const middlewares: Middlewares = [
 ];
 
 if (corsEnabled()) {
+  const allowCredentials = corsAllowCredentials();
   const allowedOrigins = corsAllowedOrigins();
   const allowedMethods = corsAllowedMethods();
   const allowedHeaders = corsAllowedHeaders();
 
   logger.info('CORS is enabled');
+
+  if (allowCredentials) {
+    logger.info('CORS allows credentials');
+  } else {
+    logger.info('CORS does not allow credentials');
+  }
+
   logger.info('CORS allowed origins: [ %s ]', allowedOrigins.map((m) => `'${m}'`).join(', '));
   logger.info('CORS allowed methods: [ %s ]', allowedMethods.map((m) => `'${m}'`).join(', '));
   logger.info('CORS allowed headers: [ %s ]', allowedHeaders.map((m) => `'${m}'`).join(', '));
@@ -56,7 +65,7 @@ if (corsEnabled()) {
         return callback(forbidden('Not allowed by CORS'));
       },
       allowedHeaders,
-      credentials: true,
+      credentials: allowCredentials,
       methods: allowedMethods,
     })
   );
