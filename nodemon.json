@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "watch": ["src", ".env"],
+  "colours": true,
+  "ignore": ["src/**/*.spec.ts"],
+  "ext": "ts",
+  "execMap": {
+    "ts": "ts-node"
+  }
+}
