@@ -47,15 +47,15 @@ export const errorHandler: ErrorRequestHandler = (error, request, response, next
       name: error.name,
       original:
         error.message && error.message.includes('\n')
-          ? error.message?.replace(/"/g, "'").split('\n')
+          ? error.message.replace(/"/g, "'").split('\n')
           : error.message,
       processed: errorResponse.message,
     },
   } as Record<string, any>;
 
   if (inDevelopment() && error.stack) {
-    errorObject['stack'] = error.stack.replace(/"/g, "'").split('\n');
-    errorResponse.stack = errorObject['stack'];
+    errorObject.stack = error.stack.replace(/"/g, "'").split('\n');
+    errorResponse.stack = errorObject.stack;
   }
 
   response.hasError = true;

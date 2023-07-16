@@ -51,10 +51,8 @@ export function createLogger(name: string, data: any = {}) {
 
 export default new Proxy(logger, {
   get: (target, property, receiver) => {
-    let logger = storage.getStore()?.logger;
-    if (!logger) logger = createLogger('server');
-
-    target = logger;
+    const store = storage.getStore();
+    target = store ? store.logger : createLogger('server');
     return Reflect.get(target, property, receiver);
   },
 });
