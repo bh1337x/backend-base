@@ -1,11 +1,11 @@
 import { mkdirSync, existsSync } from 'fs';
 import pino from 'pino';
 import { inProduction } from '../utils/runtime';
-import storage from './storage';
+import storage from '../core/storage';
 
 if (!existsSync('logs')) mkdirSync('logs');
 
-const logger = pino({
+const loggerInstance = pino({
   transport: {
     targets: [
       {
@@ -45,14 +45,14 @@ const logger = pino({
   },
 });
 
-export function createLogger(name: string, data: any = {}) {
-  return logger.child({ name, ...data });
-}
-
-export default new Proxy(logger, {
+export const logger = new Proxy(loggerInstance, {
   get: (target, property, receiver) => {
     const store = storage.getStore();
     target = store ? store.logger : createLogger('server');
     return Reflect.get(target, property, receiver);
   },
 });
+
+export function createLogger(name: string, data: any = {}) {
+  return loggerInstance.child({ name, ...data });
+}

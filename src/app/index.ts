@@ -1,7 +1,7 @@
 import 'express-async-errors';
 
 import express from 'express';
-import logger from '../core/logger';
+import { logger } from '../lib';
 import { attach } from '../core/controller';
 import { errorHandler, notFoundHandler } from './error';
 import middlewares from './middlewares';

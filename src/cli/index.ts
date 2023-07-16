@@ -1,10 +1,7 @@
 import * as fs from 'fs';
 import path from 'path';
 import { program } from 'commander';
-import { createLogger } from '../core/logger';
-import { attach } from '../core/cli';
-
-export const logger = createLogger('cli');
+import { attach, logger } from '../core/cli';
 
 async function main() {
   program.name('backend-cli').version('1.0.0');

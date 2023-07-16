@@ -1,9 +1,8 @@
 import 'dotenv/config';
 import './types';
-import './core/env';
 
 import { inDevelopment } from './utils/runtime';
-import logger from './core/logger';
+import { loadEnvironment, loadConfiguration, logger } from './lib';
 
 process.on('uncaughtException', (error, origin) => {
   logger.fatal(
@@ -14,3 +13,16 @@ process.on('uncaughtException', (error, origin) => {
     process.exit(-1);
   }
 });
+
+['SIGINT', 'SIGTERM'].forEach((signal) => {
+  process.on(signal, () => {
+    logger.info('Shutting the server down');
+    process.exit(0);
+  });
+});
+
+export async function boot() {
+  logger.info('Booting the server up');
+  await loadEnvironment();
+  await loadConfiguration();
+}

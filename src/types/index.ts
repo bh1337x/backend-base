@@ -1,4 +1,6 @@
 import type { Logger } from 'pino';
+import z from 'zod';
+import { EnvironmentSchema } from '../lib/env';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -13,5 +15,11 @@ declare module 'http' {
     timestamp: number;
     body: any;
     hasError: boolean;
+  }
+}
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof EnvironmentSchema> {}
   }
 }

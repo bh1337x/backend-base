@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "cors": {
+      "type": "object",
+      "properties": {
+        "origins": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^https?://[^/]*$" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "methods": {
+          "type": "array",
+          "items": { "enum": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"] },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "Accept",
+              "Accept-Language",
+              "Content-Language",
+              "Content-Type",
+              "Range",
+              "Authorization",
+              "X-Requested-With",
+              "X-HTTP-Method-Override"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "credentials": { "type": "boolean" }
+      },
+      "required": ["origins", "methods", "headers", "credentials"],
+      "additionalProperties": false
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "anyOf": [
+            { "type": "string", "pattern": "^[1-9][0-9]*(K|M)B$" },
+            { "enum": ["1KB", "10KB", "100KB", "1MB", "10MB"] }
+          ]
+        }
+      },
+      "required": ["limit"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["cors", "body"]
+}

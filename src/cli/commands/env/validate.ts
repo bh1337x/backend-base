@@ -1,23 +1,23 @@
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import { command } from '../../../core/cli';
-import { logger } from '../..';
+import { command, logger } from '../../../core/cli';
+import { loadEnvironment } from '../../../lib';
 
 export default command({
   name: 'validate',
   description: 'Validate the environment',
   handler: {
     options: {
-      dotEnv: {
-        flags: '--dot-env <path|false>',
+      file: {
+        flags: '-f, --file <path>',
         description: 'Load the .env file from root',
-        defaultValue: 'false',
+        defaultValue: '',
       },
     },
-    async action({ dotEnv }) {
-      if (dotEnv !== 'false') {
-        const envFilePath = path.resolve(process.cwd(), dotEnv);
+    async action({ file }) {
+      if (file) {
+        const envFilePath = path.resolve(process.cwd(), file);
 
         logger.info(`Loading env file from ${envFilePath}`);
         if (!fs.existsSync(envFilePath)) {
@@ -28,7 +28,7 @@ export default command({
         dotenv.config({ path: envFilePath });
       }
 
-      await import('../../../core/env');
+      await loadEnvironment();
     },
   },
 });

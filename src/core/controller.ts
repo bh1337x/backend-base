@@ -1,6 +1,6 @@
 import type { Application } from 'express';
 import type { Validator, Controller, Route } from '../types/core';
-import logger from './logger';
+import { logger } from '../lib';
 
 export function _<T extends Validator>(handler: Controller<T>, validator?: T): Controller<T> {
   if (!validator) {

@@ -1,6 +1,18 @@
 import type { AnyZodObject, z } from 'zod';
 import type { RequestHandler } from 'express';
 
+export type ConfigData = {
+  cors: {
+    origins: string[];
+    methods: string[];
+    headers: string[];
+    credentials: boolean;
+  };
+  body: {
+    limit: string;
+  };
+};
+
 export type Schema = AnyZodObject;
 
 export type Validator = {

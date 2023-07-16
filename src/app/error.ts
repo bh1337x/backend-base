@@ -1,7 +1,7 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
+import type { ErrorResponse } from '../types/core';
 import { ZodError } from 'zod';
 import { notFound } from '../utils/error';
-import { ErrorResponse } from '../types/core';
 import { inDevelopment } from '../utils/runtime';
 
 export default class HttpError extends Error {

@@ -9,6 +9,7 @@ import type {
 } from '../types/core';
 import * as fs from 'fs';
 import path from 'path';
+import { createLogger } from '../lib';
 
 export function commands(entry: CommandDirectory): CommandDirectoryEntry {
   return {
@@ -51,8 +52,8 @@ export async function attach(program: Command, entry: CommandEntry, file: string
       for (const optionKey in options) {
         const option = options[optionKey];
 
-        if (option.defaultValue) {
-          command.option(option.flags, option.description, option.defaultValue);
+        if (typeof option.defaultValue != 'undefined') {
+          command.option(option.flags, option.description, option.defaultValue!);
         } else {
           command.requiredOption(option.flags, option.description);
         }
@@ -62,3 +63,5 @@ export async function attach(program: Command, entry: CommandEntry, file: string
     command.action(handler.action);
   }
 }
+
+export const logger = createLogger('cli');
