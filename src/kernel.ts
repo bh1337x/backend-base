@@ -1,7 +1,6 @@
-import 'dotenv/config';
 import './types';
 
-import { inDevelopment } from './utils/runtime';
+import { inDevelopment, inProduction } from './utils/runtime';
 import { loadEnvironment, loadConfiguration, logger } from './lib';
 
 process.on('uncaughtException', (error, origin) => {
@@ -23,6 +22,11 @@ process.on('uncaughtException', (error, origin) => {
 
 export async function boot() {
   logger.info('Booting the server up');
+
+  if (!inProduction()) {
+    await import('dotenv/config');
+  }
+
   await loadEnvironment();
   await loadConfiguration();
 }

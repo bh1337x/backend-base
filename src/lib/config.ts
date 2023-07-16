@@ -6,12 +6,10 @@ import { createLogger } from './logger';
 
 const logger = createLogger('config');
 const configFolder = path.resolve(process.cwd(), 'config');
-const env = process.env.NODE_ENV!;
-
 let data: ConfigData = null as any;
 
 export async function loadConfiguration() {
-  const configFile = path.resolve(configFolder, `${env}.json`);
+  const configFile = path.resolve(configFolder, `${process.env.NODE_ENV}.json`);
   logger.info(`Loading the configuration from ${configFile}`);
 
   if (!fs.existsSync(configFile)) {

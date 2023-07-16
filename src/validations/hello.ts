@@ -1,5 +1,5 @@
 import type { Validator } from '../types/core';
-import { number, object, string } from 'zod';
+import { object, string } from 'zod';
 
 export const helloWorld = {
   response: object({
@@ -9,7 +9,7 @@ export const helloWorld = {
 
 export const helloUser = {
   params: object({
-    name: number(),
+    name: string(),
   }),
   response: object({
     message: string(),
