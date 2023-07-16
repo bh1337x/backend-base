@@ -39,6 +39,8 @@ if (corsEnabled()) {
   const allowedMethods = corsAllowedMethods();
   const allowedHeaders = corsAllowedHeaders();
 
+  const wildcardOrigins = allowedOrigins.filter((allowedOrigin) => allowedOrigin.includes('://*.'));
+
   logger.info('CORS is enabled');
 
   if (allowCredentials) {
@@ -60,6 +62,15 @@ if (corsEnabled()) {
 
         if (!origin || allowedOrigins.includes(origin)) {
           return callback(null, true);
+        }
+
+        if (wildcardOrigins) {
+          for (const wildcardOrigin of wildcardOrigins) {
+            const regex = new RegExp(wildcardOrigin.replace(/\*/g, '.*'));
+            if (origin.match(regex)) {
+              return callback(null, true);
+            }
+          }
         }
 
         return callback(forbidden('Not allowed by CORS'));

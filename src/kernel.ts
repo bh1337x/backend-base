@@ -5,9 +5,11 @@ import './core/env';
 import { inDevelopment } from './utils/runtime';
 import logger from './core/logger';
 
-process.on('uncaughtException', (err) => {
-  logger.fatal('This should have never happened');
-  logger.fatal(err);
+process.on('uncaughtException', (error, origin) => {
+  logger.fatal(
+    error,
+    `${origin === 'uncaughtException' ? 'Uncaught Exception' : 'Unhandled Promise Rejection'}!`
+  );
   if (inDevelopment()) {
     process.exit(-1);
   }

@@ -15,6 +15,6 @@ server.on('request', (request, response) => {
 });
 
 server.listen(process.env.PORT, () => {
-  logger.info(`Server is running at http://localhost:${process.env.PORT} `);
+  logger.info(`Server is running at http://localhost:${process.env.PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV}`);
 });
