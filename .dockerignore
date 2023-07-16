@@ -1,0 +1,10 @@
+node_modules
+build
+logs
+.git
+.gitignore
+.eslintrc.json
+.prettierrc.json
+.dockerignore
+Dockerfile
+docker-compose.yml
