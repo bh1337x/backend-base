@@ -1,7 +1,7 @@
 import 'express-async-errors';
 
 import express from 'express';
-import { logger } from '../lib';
+import { Configuration, logger } from '../lib';
 import { attach } from '../core/controller';
 import { errorHandler, notFoundHandler } from './error';
 import middlewares from './middlewares';
@@ -19,13 +19,15 @@ logger.info(
   middlewares.map((m) => `\n\t'${m.name}'`).join(', ')
 );
 
+const apiPrefix = Configuration.get('api', 'prefix');
+
 logger.info('Registered routes:');
 logger.info('\t--------\t ------');
 logger.info('\t|METHOD|\t |PATH|');
 logger.info('\t--------\t ------');
 try {
   for (const [key, value] of Object.entries(routes)) {
-    attach(app, '/api', key, value);
+    attach(app, apiPrefix, key, value);
   }
 } catch (error: any) {
   logger.error(error.message);

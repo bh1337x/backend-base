@@ -1,7 +1,7 @@
 import './types';
 
 import { inDevelopment, inProduction } from './utils/runtime';
-import { loadEnvironment, loadConfiguration, logger } from './lib';
+import { logger, Environment, Configuration } from './lib';
 
 process.on('uncaughtException', (error, origin) => {
   logger.fatal(
@@ -27,6 +27,6 @@ export async function boot() {
     await import('dotenv/config');
   }
 
-  await loadEnvironment();
-  await loadConfiguration();
+  await Environment.load();
+  await Configuration.load();
 }

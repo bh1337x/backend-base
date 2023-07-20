@@ -6,7 +6,8 @@
     "headers": ["Authorization", "X-HTTP-Method-Override"],
     "credentials": true
   },
-  "body": {
-    "limit": "512KB"
+  "api": {
+    "prefix": "/api",
+    "bodyLimit": "512KB"
   }
 }

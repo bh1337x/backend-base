@@ -7,7 +7,7 @@ import type {
   CommandEntry,
   CommandOptions,
 } from '../types/core';
-import * as fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { createLogger } from '../lib';
 

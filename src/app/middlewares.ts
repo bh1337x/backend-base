@@ -3,10 +3,10 @@ import express from 'express';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import { context, identifier, logging, cors } from '../middlewares';
-import { logger, getConfiguration } from '../lib';
+import { logger, Configuration } from '../lib';
 
 const corsEnabled = process.env.CORS_ENABLED === 'true';
-const bodyLimit = getConfiguration('body', 'limit');
+const bodyLimit = Configuration.get('api', 'bodyLimit');
 
 const middlewares: Middlewares = [
   methodOverride('X-HTTP-Method-Override', {

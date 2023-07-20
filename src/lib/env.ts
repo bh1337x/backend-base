@@ -1,7 +1,7 @@
 import { object, coerce, string } from 'zod';
 import { createLogger } from './logger';
 
-const logger = createLogger('environment');
+const logger = createLogger('env');
 
 export const EnvironmentSchema = object({
   NODE_ENV: string().refine((value) => {
@@ -15,22 +15,24 @@ export const EnvironmentSchema = object({
   }, "Should be one of 'true' or 'false'"),
 });
 
-export async function loadEnvironment() {
-  logger.info('Validating the environment variables');
-  const result = EnvironmentSchema.safeParse(process.env);
+export class Environment {
+  static async load() {
+    logger.info('Validating the environment');
+    const result = EnvironmentSchema.safeParse(process.env);
 
-  if (result.success) {
-    logger.info('The environment variables have been validated');
-    process.env = {
-      ...process.env,
-      ...result.data,
-    } as NodeJS.ProcessEnv;
-  } else {
-    logger.error(
-      `The following environment variables are invalid:\n${result.error.issues
-        .map((issue, index) => `${index + 1}) ${issue.path} - ${issue.message}`)
-        .join('\n')}`
-    );
-    process.exit(1);
+    if (result.success) {
+      logger.info('The environment has been validated');
+      process.env = {
+        ...process.env,
+        ...result.data,
+      } as NodeJS.ProcessEnv;
+    } else {
+      logger.error(
+        `The following variables are invalid:\n${result.error.issues
+          .map((issue, index) => `${index + 1}) ${issue.path} - ${issue.message}`)
+          .join('\n')}`
+      );
+      process.exit(1);
+    }
   }
 }

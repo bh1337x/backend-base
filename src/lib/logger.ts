@@ -5,7 +5,7 @@ import storage from '../core/storage';
 
 if (!existsSync('logs')) mkdirSync('logs');
 
-const loggerInstance = pino({
+const LoggerInstance = pino({
   transport: {
     targets: [
       {
@@ -45,7 +45,7 @@ const loggerInstance = pino({
   },
 });
 
-export const logger = new Proxy(loggerInstance, {
+export const logger = new Proxy(LoggerInstance, {
   get: (target, property, receiver) => {
     const store = storage.getStore();
     target = store ? store.logger : createLogger('server');
@@ -54,5 +54,5 @@ export const logger = new Proxy(loggerInstance, {
 });
 
 export function createLogger(name: string, data: any = {}) {
-  return loggerInstance.child({ name, ...data });
+  return LoggerInstance.child({ name, ...data });
 }

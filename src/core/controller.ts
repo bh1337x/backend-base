@@ -51,13 +51,18 @@ export function attach(app: Application, parentPath: string, childPath: string, 
   const fullPath = `${parentPath}${childPath}`;
   if (typeof route === 'function') {
     if (!isValidPath(childPath)) {
-      throw new Error(`Invalid path: ${childPath} in ${parentPath}`);
+      throw new Error(`Invalid path: '${childPath}' in '${parentPath}'`);
     }
+
     logger.info(`\tGET\t\t ${fullPath}`);
     app.get(transformPath(fullPath), route);
   }
 
   if (typeof route === 'object') {
+    if (!isValidPath(fullPath)) {
+      throw new Error(`Invalid path: ${fullPath}`);
+    }
+
     for (const [key, value] of Object.entries(route)) {
       if (['GET', 'POST', 'PUT', 'DELETE'].includes(key)) {
         logger.info(`\t${key}\t\t ${fullPath}`);
@@ -77,7 +82,7 @@ export function attach(app: Application, parentPath: string, childPath: string, 
         }
       } else {
         if (!isValidPath(key)) {
-          throw new Error(`Invalid path: ${key} in ${fullPath}`);
+          throw new Error(`Invalid path: '${key}' in '${fullPath}'`);
         }
         attach(app, fullPath, key, value);
       }
@@ -86,7 +91,7 @@ export function attach(app: Application, parentPath: string, childPath: string, 
 }
 
 function isValidPath(path: string) {
-  return path.startsWith('/');
+  return path.startsWith('/') && !path.endsWith('/') && !path.includes('//');
 }
 
 function transformPath(path: string) {

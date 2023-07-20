@@ -1,13 +1,13 @@
 import type { Middleware } from '../types/core';
 import corsMiddleware from 'cors';
-import { getConfiguration, logger } from '../lib';
+import { Configuration, logger } from '../lib';
 import { forbidden } from '../utils/error';
 
 export function cors(): Middleware {
-  const allowCredentials = getConfiguration('cors', 'credentials');
-  const allowedOrigins = getConfiguration('cors', 'origins');
-  const allowedMethods = getConfiguration('cors', 'methods');
-  const allowedHeaders = getConfiguration('cors', 'headers');
+  const allowCredentials = Configuration.get('cors', 'credentials');
+  const allowedOrigins = Configuration.get('cors', 'origins');
+  const allowedMethods = Configuration.get('cors', 'methods');
+  const allowedHeaders = Configuration.get('cors', 'headers');
 
   const wildcardOrigins = allowedOrigins.filter((allowedOrigin) => allowedOrigin.includes('://*.'));
 

@@ -39,19 +39,20 @@
       "required": ["origins", "methods", "headers", "credentials"],
       "additionalProperties": false
     },
-    "body": {
+    "api": {
       "type": "object",
       "properties": {
-        "limit": {
+        "prefix": { "type": "string", "pattern": "^/[^/]*$" },
+        "bodyLimit": {
           "anyOf": [
             { "type": "string", "pattern": "^[1-9][0-9]*(K|M)B$" },
             { "enum": ["1KB", "10KB", "100KB", "1MB", "10MB"] }
           ]
         }
       },
-      "required": ["limit"],
+      "required": ["prefix", "bodyLimit"],
       "additionalProperties": false
     }
   },
-  "required": ["cors", "body"]
+  "required": ["cors", "api"]
 }
